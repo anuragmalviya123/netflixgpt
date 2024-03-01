@@ -2,16 +2,22 @@
 
 Features
 
-- Login/Signup
+# Login/Signup
     -SignUp/Signin Form
     -Redirect to Browsepage
--Browse (after authentication)
+
+
+
+# Browse (after authentication)
     -Header
     -Main movie
         -Tailer in background
         -Title & Description
         -Movie Suggetion
               -MovieList*N
--NetflixGPT
+
+
+              
+# NetflixGPT
     -Search Bar
     -Movie Suggetaion

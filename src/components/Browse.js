@@ -1,8 +1,8 @@
 const Browse = () => {
     return (
         <div>
-             <h1>this is browse</h1>
+             browse
         </div>
-    )
-}
+)}
+
 export default Browse;
