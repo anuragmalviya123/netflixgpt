@@ -21,3 +21,8 @@ Features
 # NetflixGPT
     -Search Bar
     -Movie Suggetaion
+
+
+ if done please run this scrpit  // Set-ExecutionPolicy RemoteSigned -Scope CurrentUser
+
+                                // Set-ExecutionPolicy Restricted -Scope CurrentUser
