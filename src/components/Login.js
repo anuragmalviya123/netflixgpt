@@ -1,10 +1,21 @@
 import { useRef, useState } from "react";
 import {checkvalidate} from "../utils/Validate";
 import Header from "./Header";
+import { auth } from "../utils/firebase";
+import {createUserWithEmailAndPassword } from "firebase/auth";
+import { signInWithEmailAndPassword } from "firebase/auth";
+import { useNavigate } from "react-router-dom";
+import { updateProfile } from "firebase/auth";
+import { useDispatch } from "react-redux";
+import { addUser } from "../utils/userSlice";
+
+
 const Login = () => {
     const [IsLogged, setIsLogged] = useState(true);
     const [manage,setmanage] = useState(" ");
-    const name = useRef(null);
+    const navigate = useNavigate();
+   const dispatch = useDispatch();
+
     const email = useRef(null);
     const password = useRef(null);
     const notregistered = () => {
@@ -17,7 +28,65 @@ const Login = () => {
     }
 
     const handleClick = () => {
-       setmanage(checkvalidate(email.current.value,password.current.value,name.current.value));
+        const message = checkvalidate(email.current.value,password.current.value);
+        setmanage(message);
+
+        if(message)
+        {
+            return;
+        }
+
+        if(!IsLogged) {
+            createUserWithEmailAndPassword(auth,email.current.value,password.current.value)
+           .then((userCredential) => {
+             // Signed up 
+            const user = userCredential.user;
+            updateProfile(user, {
+                displayName: email.current.value, photoURL: "https://example.com/jane-q-user/profile.jpg"
+              }).then(() => {
+                // Profile updated!
+                const {uid,email,displayName,photoURL} = auth.currentUser;
+                dispatch(addUser({uid: uid , email: email, displayName: displayName, photoURL: photoURL}));
+                // ...
+              }).catch((error) => {
+                setmanage(error.code);
+
+              });
+
+
+            //
+            console.log(user);
+
+             // ...
+          })
+             .catch((error) => {
+             const errorCode = error.code;
+             const errorMessage = error.message;
+             setmanage(errorCode);
+
+             // ..
+          });
+        }
+        else{
+            signInWithEmailAndPassword(auth, email.current.value,password.current.value)
+            .then((userCredential) => {
+             // Signed in 
+            const user = userCredential.user;
+            console.log(user);
+            navigate("/browse");
+
+             // ...
+            })
+           .catch((error) => {
+            const errorCode = error.code;
+            const errorMessage = error.message;
+            setmanage(errorCode);
+            navigate("/");
+
+            });
+        }
+
+
     }
     return (
         <div>
@@ -29,7 +98,7 @@ const Login = () => {
             </div>
             <form onSubmit={(e) => e.preventDefault()} className="w-3/12 absolute p-12 bg-black my-36 mx-auto right-0 left-0 opacity-80 rounded-lg ">
                 <h1 className="text-rose-50 font-bold ... px-20">{IsLogged ? "Sign In" : "Sign Up"}</h1>
-                {!IsLogged ? <input type="text" ref={name} className="py-2 m-4  w-full rounded-lg  bg-black text-white border-2 border-indigo-600" placeholder="Name" /> : " "}
+                {!IsLogged ? <input type="text"  className="py-2 m-4  w-full rounded-lg  bg-black text-white border-2 border-indigo-600" placeholder="Name" /> : " "}
                 <input type="text" ref={email} className="py-2 m-4  w-full rounded-lg  bg-black text-white border-2 border-indigo-600" placeholder="Email Address" />
                 <input type="password" ref={password}  className="py-2 m-4  w-full rounded-lg   bg-black text-white border-2 border-indigo-600" placeholder="Password" />
                 <p className="text-rose-50 font-bold ...  ">{manage}</p>
