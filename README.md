@@ -28,6 +28,4 @@ Features
                                 // Set-ExecutionPolicy Restricted -Scope CurrentUser
 
 
- API Key - f5a4a2ce6d99488757674f74555f4da6
-                                
- API Read Access Token - eyJhbGciOiJIUzI1NiJ9.eyJhdWQiOiJmNWE0YTJjZTZkOTk0ODg3NTc2NzRmNzQ1NTVmNGRhNiIsInN1YiI6IjY1ZTliNWRiYWY5NTkwMDE4NGRkM2YwYSIsInNjb3BlcyI6WyJhcGlfcmVhZCJdLCJ2ZXJzaW9uIjoxfQ.AVVytKY6Xptxcwyhl8SDhi5Kk8OLNQrVbZfDo4HcY5Y
+
